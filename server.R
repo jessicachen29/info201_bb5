@@ -7,12 +7,36 @@ library(ggplot2)
 
 data <- data.table::fread("data/xAPI-Edu-Data.csv")
 
+participation <-
+  data %>%
+  select(raisedhands, VisITedResources, AnnouncementsView, Discussion, Class) %>% 
+  group_by(Class) %>% 
+  summarize(
+    avg_hands = mean(raisedhands),
+    avg_resources = mean(VisITedResources),
+    avg_announcements = mean(AnnouncementsView),
+    avg_discuss = mean(Discussion)
+  )
+
 shinyServer(function(input, output) {
    
-  output$plot <- renderPlot({
-    plot(data$AnnouncementsView, type = input$plotType)
+  output$plot1 <- renderPlot({
+    ggplot(participation) +
+      geom_col(mapping = aes(x = reorder(Class, c(3, 1, 2)), y = avg_hands)) +
+      labs(x = "Grade", y = "Average Hands Raised")
   })
-
+  
+  output$plot3 <- renderPlot({
+    data <- data %>% 
+      filter(StageID == input$stage) %>% 
+      group_by(Class) %>% 
+      count(ParentAnsweringSurvey) %>% 
+      mutate(percentage = n / sum(n) * 100)
+    
+    ggplot(data, aes(x=Class, y=percentage, fill=ParentAnsweringSurvey)) + 
+      geom_bar(stat="identity")
+  })
+  
   output$table <- DT::renderDataTable(DT::datatable({
     if(input$gender != "All") {
       data <- data[data$gender == input$gender,]

@@ -13,15 +13,22 @@ shinyUI(
                   
                 )
        ),
-       tabPanel("One",
+       tabPanel("Participation vs. Grades",
                 # default so we could run the app
                 sidebarLayout(
                   sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter" = "p", "Line" = "l")
+                    radioButtons("participation_select", "Type of Participation",
+                                 c(
+                                   "Raised hand" = "raisedhands",
+                                   "Visiting Resources" = "VisITedResources",
+                                   "Viewing Announcements" = "AnnouncementsView",
+                                   "Discussion Groups" = "Discussion"
+                                 )
                     )
                   ),
                   mainPanel(
+                    plotOutput("plot1"),
+                    textOutput("pwd")
                   )
                 )
        ),
@@ -37,14 +44,18 @@ shinyUI(
                   )
                 )
        ),
-       tabPanel("Three",
+       tabPanel("Parental Involvement vs. Grades",
                 sidebarLayout(
                   sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter"="p", "Line"="l")
+                    selectInput(
+                      inputId = "stage",
+                      label = "School stage: ",
+                      c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool"
+                        ,"High School" = "HighSchool")
                     )
                   ),
                   mainPanel(
+                    plotOutput("plot3")
                   )
                 )
        ),
