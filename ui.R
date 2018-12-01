@@ -13,16 +13,22 @@ shinyUI(
                   
                 )
        ),
-       tabPanel("One",
+       tabPanel("Participation vs. Grades",
                 # default so we could run the app
                 sidebarLayout(
                   sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter"="p", "Line"="l")
+                    radioButtons("participation_select", "Type of Participation",
+                                 c(
+                                   "Raised hand" = "raisedhands",
+                                   "Visiting Resources" = "VisITedResources",
+                                   "Viewing Announcements" = "AnnouncementsView",
+                                   "Discussion Groups" = "Discussion"
+                                 )
                     )
                   ),
                   mainPanel(
-                    plotOutput("plot")
+                    plotOutput("plot1"),
+                    textOutput("pwd")
                   )
                 )
        ),
@@ -57,6 +63,7 @@ shinyUI(
        tabPanel("Data Table",
                 dataTableOutput("table")
        )
+
   ))
 
 
