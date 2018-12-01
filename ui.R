@@ -39,15 +39,18 @@ shinyUI(
                   )
                 )
        ),
-       tabPanel("Three",
+       tabPanel("Parental Involvement vs. Grades",
                 sidebarLayout(
                   sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter"="p", "Line"="l")
+                    selectInput(
+                      inputId = "stage",
+                      label = "School stage: ",
+                      c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool"
+                        ,"High School" = "HighSchool")
                     )
                   ),
                   mainPanel(
-                    plotOutput("plot")
+                    plotOutput("plot3")
                   )
                 )
        ),
