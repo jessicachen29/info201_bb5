@@ -10,10 +10,49 @@ data <- data.table::fread("data/xAPI-Edu-Data.csv")
 shinyServer(function(input, output) {
    
   output$plot <- renderPlot({
-    plot(data$AnnouncementsView, type=input$plotType)
+    plot(data$AnnouncementsView, type = input$plotType)
   })
-  
-  output$table <- renderDataTable({
-    datatable(data)
-  })
+
+  output$table <- DT::renderDataTable(DT::datatable({
+    if(input$gender != "All") {
+      data <- data[data$gender == input$gender,]
+    }
+    if(input$NationalITy != "All") {
+      data <- data[data$NationalITy == input$NationalITy,]
+    }
+    if(input$PlaceofBirth != "All") {
+      data <- data[data$PlaceofBirth == input$PlaceofBirth,]
+    }
+    if(input$StageID != "All") {
+      data <- data[data$StageID == input$StageID,]
+    }
+    if(input$GradeID != "All") {
+      data <- data[data$GradeID == input$GradeID,]
+    }
+    if(input$SectionID != "All") {
+      data <- data[data$SectionID == input$SectionID,]
+    }
+    if(input$Topic != "All") {
+      data <- data[data$Topic == input$Topic,]
+    }
+    if(input$Semester != "All") {
+      data <- data[data$Semester == input$Semester,]
+    }
+    if(input$Relation != "All") {
+      data <- data[data$Relation == input$Relation,]
+    }
+    if(input$ParentAnsweringSurvey != "All") {
+      data <- data[data$ParentAnsweringSurvey == input$ParentAnsweringSurvey,]
+    }
+    if(input$ParentschoolSatisfaction != "All") {
+      data <- data[data$ParentschoolSatisfaction == input$ParentschoolSatisfaction,]
+    }
+    if(input$StudentAbsenceDays != "All") {
+      data <- data[data$StudentAbsenceDays == input$StudentAbsenceDays,]
+    }
+    if(input$Class != "All") {
+      data <- data[data$Class == input$Class,]
+    }
+    data
+  }))
 })
