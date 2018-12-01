@@ -29,8 +29,5 @@ shinyServer(function(input, output) {
   output$table <- renderDataTable({
     datatable(data)
   })
-  
-  output$pwd <- renderText({
-    "hello"
-  })
+
 })
