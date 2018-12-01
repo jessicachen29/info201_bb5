@@ -21,45 +21,18 @@ shinyUI(
                                  c(
                                    "Raised hand" = "raisedhands",
                                    "Visiting Resources" = "VisITedResources",
-                                   "Viewing Announcements"="AnnouncementsViewed",
+                                   "Viewing Announcements" = "AnnouncementsView",
                                    "Discussion Groups" = "Discussion"
                                  )
                     )
                   ),
                   mainPanel(
-                    plotOutput("plot")
+                    plotOutput("plot1"),
+                    textOutput("pwd")
                   )
                 )
-       ),
-       tabPanel("Two",
-                # default so we could run the app
-                sidebarLayout(
-                  sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter"="p", "Line"="l")
-                    )
-                  ),
-                  mainPanel(
-                    plotOutput("plot")
-                  )
-                )
-       ),
-       tabPanel("Three",
-                # default so we could run the app
-                sidebarLayout(
-                  sidebarPanel(
-                    radioButtons("plotType", "Plot type",
-                                 c("Scatter"="p", "Line"="l")
-                    )
-                  ),
-                  mainPanel(
-                    plotOutput("plot")
-                  )
-                )
-       ),
-       tabPanel("Data Table",
-                dataTableOutput("table")
        )
+
   ))
 
 
