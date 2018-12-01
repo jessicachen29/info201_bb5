@@ -5,12 +5,15 @@
 library(shiny)
 library(ggplot2)
 
-# Define server logic required to draw a histogram
+data <- data.table::fread("data/xAPI-Edu-Data.csv")
+
 shinyServer(function(input, output) {
    
-  output$distPlot <- renderPlot({
-    
-    
+  output$plot <- renderPlot({
+    plot(data$AnnouncementsView, type=input$plotType)
   })
   
+  output$table <- renderDataTable({
+    datatable(data)
+  })
 })
