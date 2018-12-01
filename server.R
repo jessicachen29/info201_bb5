@@ -33,8 +33,8 @@ shinyServer(function(input, output) {
       count(ParentAnsweringSurvey) %>% 
       mutate(percentage = n / sum(n) * 100)
     
-    ggplot(data, aes(x=Class, y=percentage, fill=ParentAnsweringSurvey)) + 
-      geom_bar(stat="identity")
+    ggplot(data, aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)) + 
+      geom_bar(stat = "identity")
   })
   
   output$table <- DT::renderDataTable(DT::datatable({
