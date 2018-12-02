@@ -36,8 +36,11 @@ shinyServer(function(input, output) {
       group_by(Class) %>% 
       count(ParentAnsweringSurvey) %>% 
       mutate(percentage = n / sum(n) * 100)
+    data$Class <- factor(data$Class, levels=c("L", "M", "H"))
     
     ggplot(data, aes(x=Class, y=percentage, fill=ParentAnsweringSurvey)) + 
-               geom_bar(stat="identity")
+               geom_bar(stat="identity") +
+               labs(title= "Parental Invovlement by Students' Grades")+
+                xlab("Grade Level") + ylab("Percentage (%)")
   })
 })
