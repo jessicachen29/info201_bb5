@@ -32,17 +32,17 @@ shinyUI(
                         )
                       )
              ),
-            tabPanel("Nationality vs Grades",
-                     sidebarLayout(
-                       sidebarPanel(
-                         radioButtons("grades", "Grades",
-                                      c("High", "Mid", "Low")
+             tabPanel("Nationality vs Grades",
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("grades", "Grades",
+                                       c("High", "Mid", "Low")
+                          )
+                        ),
+                        mainPanel(
+                          plotOutput("plot2")
                         )
-                       ),
-                       mainPanel(
-                           plotOutput("plot2")
-                       )
-                     )
+                      )
              ),
              tabPanel("Parental Involvement vs. Grades",
                       sidebarLayout(
@@ -145,4 +145,3 @@ shinyUI(
                       )
              ))
 )
-

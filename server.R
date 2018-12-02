@@ -29,32 +29,32 @@ shinyServer(function(input, output) {
   })
   
   output$plot2 <- renderPlot({
-      grades <- select(data, Class, NationalITy)
-
-      high <- filter(grades, Class == 'H')
-      mid <- filter(grades, Class == 'M')
-      low <- filter(grades, Class == 'L')
-
-      if (input$grades == 'H') {
-        bp <- ggplot(grades, aes(x="", y = nrow(high), fill = NationalITy))+
-          geom_bar(width = 1, stat = "identity")
-        pie <- bp + coord_polar("y", start=0)
-        return(pie)
-
-      } else if (input$grades == 'M') {
-        bp <- ggplot(grades, aes(x="", y = nrow(mid), fill = NationalITy))+
-          geom_bar(width = 1, stat = "identity")
-        pie <- bp + coord_polar("y", start=0)
-        return(pie)
-
-      } else {
-        bp <- ggplot(grades, aes(x="", y = nrow(low), fill = NationalITy))+
-          geom_bar(width = 1, stat = "identity")
-        pie <- bp + coord_polar("y", start=0)
-        return(pie)
-
-      }
-    })
+    grades <- select(data, Class, NationalITy)
+    
+    high <- filter(grades, Class == 'H')
+    mid <- filter(grades, Class == 'M')
+    low <- filter(grades, Class == 'L')
+    
+    if (input$grades == 'H') {
+      bp <- ggplot(grades, aes(x="", y = nrow(high), fill = NationalITy))+
+        geom_bar(width = 1, stat = "identity")
+      pie <- bp + coord_polar("y", start=0)
+      return(pie)
+      
+    } else if (input$grades == 'M') {
+      bp <- ggplot(grades, aes(x="", y = nrow(mid), fill = NationalITy))+
+        geom_bar(width = 1, stat = "identity")
+      pie <- bp + coord_polar("y", start=0)
+      return(pie)
+      
+    } else {
+      bp <- ggplot(grades, aes(x="", y = nrow(low), fill = NationalITy))+
+        geom_bar(width = 1, stat = "identity")
+      pie <- bp + coord_polar("y", start=0)
+      return(pie)
+      
+    }
+  })
   
   output$plot3 <- renderPlot({
     data <- data %>% 
@@ -110,4 +110,3 @@ shinyServer(function(input, output) {
     data
   }))
 })
-
