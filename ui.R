@@ -4,13 +4,15 @@
 
 library(shiny)
 library(ggplot2)
+library(dplyr)
+library(plotly)
+library(DT)
 
-# Define UI for application that draws a histogram
+# Define UI for application
 shinyUI(
   navbarPage("Contents",
              tabPanel("Overview",
                       mainPanel(
-                        
                       )
              ),
              tabPanel("Participation vs. Grades",

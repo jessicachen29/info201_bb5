@@ -6,11 +6,11 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(DT)
 
 data <- data.table::fread("data/xAPI-Edu-Data.csv")
 
-participation <-
-  data %>%
+participation <- data %>%
   select(raisedhands, VisITedResources, AnnouncementsView, Discussion, Class) %>% 
   group_by(Class) %>% 
   summarize(
@@ -67,15 +67,20 @@ shinyServer(function(input, output) {
     }
   })
   
+  
   output$plot3 <- renderPlot({
     data <- data %>% 
       filter(StageID == input$stage) %>% 
       group_by(Class) %>% 
       count(ParentAnsweringSurvey) %>% 
       mutate(percentage = n / sum(n) * 100)
+    data$Class <- factor(data$Class, levels = c("L", "M", "H"))
     
-    ggplot(data, aes(x=Class, y=percentage, fill=ParentAnsweringSurvey)) + 
-      geom_bar(stat="identity")
+    ggplot(data, aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)) + 
+      geom_bar(stat = "identity") +
+      labs(title = "Parental Involvement by Students' Grades") +
+      xlab ("Grade Level") +
+      ylab("Percentage (%)")
   })
   
   output$table <- DT::renderDataTable(DT::datatable({
