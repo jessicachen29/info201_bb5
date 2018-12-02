@@ -31,28 +31,39 @@ shinyServer(function(input, output) {
   output$plot2 <- renderPlot({
     grades <- select(data, Class, NationalITy)
     
-    high <- filter(grades, Class == 'H')
+    high <- filter(grades, Class == 'H') 
     mid <- filter(grades, Class == 'M')
     low <- filter(grades, Class == 'L')
     
-    if (input$grades == 'H') {
-      bp <- ggplot(grades, aes(x="", y = nrow(high), fill = NationalITy))+
+    if (input$grades == "High") {
+      bp <- ggplot(high, aes(x="", y = nrow(high), fill = NationalITy)) +
         geom_bar(width = 1, stat = "identity")
       pie <- bp + coord_polar("y", start=0)
+      
+      pie <- pie + ggtitle("Students with High Grades from Different Countries") +
+        xlab("") + ylab("Number of Students") +
+        labs(fill = "Nationality")
       return(pie)
       
-    } else if (input$grades == 'M') {
-      bp <- ggplot(grades, aes(x="", y = nrow(mid), fill = NationalITy))+
+    } else if (input$grades == "Mid") {
+      bp <- ggplot(mid, aes(x="", y = nrow(mid), fill = NationalITy))+
         geom_bar(width = 1, stat = "identity")
       pie <- bp + coord_polar("y", start=0)
+      
+      pie <- pie + ggtitle("Students with Mid Grades from Different Countries") +
+        xlab("") + ylab("Number of Students") +
+        labs(fill = "Nationality")
       return(pie)
       
     } else {
-      bp <- ggplot(grades, aes(x="", y = nrow(low), fill = NationalITy))+
+      bp <- ggplot(low, aes(x="", y = nrow(low), fill = NationalITy))+
         geom_bar(width = 1, stat = "identity")
       pie <- bp + coord_polar("y", start=0)
-      return(pie)
       
+      pie <- pie + ggtitle("Students with Low Grades from Different Countries") +
+        xlab("") + ylab("Number of Students") +
+        labs(fill = "Nationality")
+      return(pie)
     }
   })
   
