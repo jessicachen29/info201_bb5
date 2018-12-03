@@ -15,24 +15,34 @@ shinyUI(
                       mainPanel(
                       )
              ),
-             tabPanel("Participation vs. Grades",
-                      # default so we could run the app
-                      sidebarLayout(
-                        sidebarPanel(
-                          radioButtons("participation_select", "Type of Participation",
-                                       c(
-                                         "Raised hand" = "raisedhands",
-                                         "Visiting Resources" = "VisITedResources",
-                                         "Viewing Announcements" = "AnnouncementsView",
-                                         "Discussion Groups" = "Discussion"
-                                       )
-                          )
-                        ),
-                        mainPanel(
-                          plotOutput("plot1"),
-                          textOutput("pwd")
-                        )
-                      )
+             tabPanel(
+               "Participation vs. Grades",
+               sidebarLayout(
+                 sidebarPanel(
+                   radioButtons(
+                     "participation_select",
+                     "Type of Participation",
+                     c(
+                       "Raised hand" = "avg_hands",
+                       "Visiting Resources" = "avg_resources",
+                       "Viewing Announcements" = "avg_announcements",
+                       "Discussion Groups" = "avg_discuss"
+                     )
+                   ),
+                   radioButtons(
+                     "by_gender",
+                     "View by Gender?",
+                     c(
+                       "Yes" = TRUE,
+                       "No" = FALSE
+                     )
+                   )
+                 ),
+                 mainPanel(
+                   plotOutput("plot1"),
+                   textOutput("pwd")
+                 )
+               )
              ),
              tabPanel("Nationality vs Grades",
                       sidebarLayout(
