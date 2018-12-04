@@ -42,7 +42,7 @@ shinyUI(
                           tags$li("Which country’s students have the highest and lowest mean of academic achievements?"), 
                           tags$li("Which grade category has the highest parental survey response rate? How does the response 
                                   rate differ by school stages?")
-                        ),
+                          ),
                         tags$br(),
                         tags$h4("Project Creators"),
                         tags$ol(
@@ -53,8 +53,8 @@ shinyUI(
                         ),
                         tags$br(),
                         tags$br()
-                      )
-             ),
+                          )
+                        ),
              tabPanel(
                "Participation vs. Grades",
                sidebarLayout(
@@ -196,4 +196,4 @@ shinyUI(
                         DT::dataTableOutput("table")
                       )
              ))
-)
+  )
