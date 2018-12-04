@@ -42,9 +42,6 @@ classified into numeric intervals based on their grades.
 ## Project Creators
 
 - Helena Stafford
-
 - Scarlett Hwang
-
 - Jessica Chen
-
 - Lucy Lee
