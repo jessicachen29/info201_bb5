@@ -107,7 +107,20 @@ shinyUI(
                           )
                         ),
                         mainPanel(
-                          plotOutput("plot3")
+                          h2("Parental Involvment and Academic Achievement"),
+                          p("The bar graph below displays percentages of parents, of students from 
+                              three different grade categories, that have responded to school surveys.
+                              The drop down menu on the side can be used to show data by three school 
+                              stages: elementary school, middle school, and high school."),
+                          p("From the chart of each school stage, we can see that parents’ response rate on
+                              surveys tend to be higher for students who have higher grades. As the chart displays,
+                              students who’re placed in High grade category have the highest parental survey response rate,
+                              followed by students being placed in Middle grade category and Low grade category."),
+                          p("Parental survey response rate, as a form of parental involvement in students’ academic 
+                              performance, seems to have an association with students’ academic achievement. That is, students
+                              who have higher academic achievement tend to have parents that are attentive to their school performances."),
+                          plotOutput("plot3"),
+                          textOutput("numOfResponse")
                         )
                       )
              ),

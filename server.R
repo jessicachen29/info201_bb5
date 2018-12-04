@@ -109,10 +109,23 @@ shinyServer(function(input, output) {
     
     ggplot(data, aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)) + 
       geom_bar(stat = "identity") +
-      geom_text(aes(label=paste0(sprintf("%1.1f", percentage), "%"), vjust=0.5)) +
+      geom_text(aes(label = paste0(sprintf("%1.1f", percentage), "%")),
+                position = position_stack(vjust=0.5)) +
       labs(title = "Parental Survey Response Rate by Students' Grades") +
       xlab ("Grade Level") +
       ylab("Percentage of Parents Responding Survey (%)")
+  })
+  
+  output$numOfResponse <- renderText({
+    numberOfStudents <- data %>% 
+      filter(StageID == input$stage) %>% 
+      nrow()
+    numberOfResponses <- data %>% 
+      filter(StageID == input$stage) %>%  
+      filter(ParentAnsweringSurvey == "Yes") %>% 
+      nrow()
+    paste0("There are ", numberOfStudents, " students in the selected school stage in which ", numberOfResponses, 
+           " students have their parents responded to the school survey.")
   })
   
   output$table <- DT::renderDataTable(DT::datatable({
