@@ -10,11 +10,51 @@ library(DT)
 
 # Define UI for application
 shinyUI(
-  navbarPage("Contents",
+  navbarPage("Learning Management System Data",
              tabPanel("Overview",
                       mainPanel(
-                      )
-             ),
+                        tags$h1("Learning Management System Data"),
+                        tags$br(),
+                        tags$h4("Project Overview"),
+                        tags$p("In order to teach effectively, it is important that educators understand the 
+                               factors that influence student performance. This project seeks to provide that 
+                               information by visualizing data from a learning management system. "),
+                        tags$br(),
+                        tags$h4("Audience"),
+                        tags$p("Our target audience is educators who want to learn what factors affect student 
+                               performance, particularly in relation to learning management systems."),
+                        tags$br(),
+                        tags$h4("Data"),
+                        tags$p("The dataset we will be using is “Students’ Academic Performance Dataset,” 
+                               which was collected by Elaf Abu Amrieh, Thair Hamtini, and Ibrahim Aljarah 
+                               from the University of Jordan. We accessed it on Kaggle (https://www.kaggle.com/aljarah/xAPI-Edu-Data/home). 
+                               It is an educational dataset collected from the learning management system Kalboard 360, 
+                               which allows students to access educational resources from any device connected 
+                               to the internet and monitors their learning progress and behaviors. The dataset 
+                               consists of a sample of 480 students and their associated attributes, including gender, 
+                               grade level, participation in discussion groups, absences, and more. The students are also 
+                               classified into numeric intervals based on their grades."),
+                        tags$br(),
+                        tags$h4("Questions"),
+                        tags$ol(
+                          tags$li("Which grade category has the highest average participation? What are the differences in 
+                                  the average participation scores? How does this vary between genders?"), 
+                          tags$li("Which country’s students have the highest and lowest mean of academic achievements?"), 
+                          tags$li("Which grade category has the highest parental survey response rate? How does the response 
+                                  rate differ by school stages?")
+                          ),
+                        tags$br(),
+                        tags$h4("Project Creators"),
+                        tags$ol(
+                          tags$li("Helena Stafford"), 
+                          tags$li("Scarlett Hwang"), 
+                          tags$li("Jessica Chen"),
+                          tags$li("Lucy Lee")
+                        ),
+                        tags$br(),
+                        tags$br()
+                          )
+                        ),
              tabPanel(
                "Participation vs. Grades",
                sidebarLayout(
@@ -156,4 +196,4 @@ shinyUI(
                         DT::dataTableOutput("table")
                       )
              ))
-)
+  )

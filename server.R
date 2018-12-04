@@ -10,16 +10,6 @@ library(DT)
 
 data <- data.table::fread("data/xAPI-Edu-Data.csv")
 
-participation <-
-  data %>%
-  select(raisedhands, VisITedResources, AnnouncementsView, Discussion, Class) %>% 
-  group_by(Class) %>% 
-  summarize(
-    avg_hands = mean(raisedhands),
-    avg_resources = mean(VisITedResources),
-    avg_announcements = mean(AnnouncementsView),
-    avg_discuss = mean(Discussion)
-  )
 
 shinyServer(function(input, output) {
   participation <- reactive({
@@ -113,14 +103,16 @@ shinyServer(function(input, output) {
       filter(StageID == input$stage) %>% 
       group_by(Class) %>% 
       count(ParentAnsweringSurvey) %>% 
-      mutate(percentage = n / sum(n) * 100)
-    data$Class <- factor(data$Class, levels = c("L", "M", "H"))
+      mutate(percentage = n / sum(n) * 100) %>% 
+      mutate(ypos = cumsum(n) - 0.5*n)
+    data$Class <- factor(data$Class, levels = c("L", "M", "H"), label = c("Low (0-69)", "Middle (70-89)", "High (90-100)"))
     
     ggplot(data, aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)) + 
       geom_bar(stat = "identity") +
-      labs(title = "Parental Involvement by Students' Grades") +
+      geom_text(aes(label=paste0(sprintf("%1.1f", percentage), "%"), vjust=0.5)) +
+      labs(title = "Parental Survey Response Rate by Students' Grades") +
       xlab ("Grade Level") +
-      ylab("Percentage (%)")
+      ylab("Percentage of Parents Responding Survey (%)")
   })
   
   output$table <- DT::renderDataTable(DT::datatable({
