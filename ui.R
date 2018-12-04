@@ -62,8 +62,8 @@ shinyUI(
                           selectInput(
                             inputId = "stage",
                             label = "School stage: ",
-                            c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool"
-                              ,"High School" = "HighSchool")
+                            c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool",
+                              "High School" = "HighSchool")
                           )
                         ),
                         mainPanel(
