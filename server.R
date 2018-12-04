@@ -10,22 +10,52 @@ library(DT)
 
 data <- data.table::fread("data/xAPI-Edu-Data.csv")
 
-participation <- data %>%
-  select(raisedhands, VisITedResources, AnnouncementsView, Discussion, Class) %>% 
-  group_by(Class) %>% 
-  summarize(
-    avg_hands = mean(raisedhands),
-    avg_resources = mean(VisITedResources),
-    avg_announcements = mean(AnnouncementsView),
-    avg_discuss = mean(Discussion)
-  )
 
 shinyServer(function(input, output) {
+  participation <- reactive({
+    data %>% select(raisedhands, VisITedResources, AnnouncementsView, Discussion, Class, gender)
+    if (input$by_gender) {
+      data <- group_by(data, Class, gender)
+    } else {
+      data <- group_by(data, Class)
+    }
+    data <- summarize(
+      data,
+      avg_hands = mean(raisedhands),
+      avg_resources = mean(VisITedResources),
+      avg_announcements = mean(AnnouncementsView),
+      avg_discuss = mean(Discussion)
+    )
+  })
   
   output$plot1 <- renderPlot({
-    ggplot(participation) +
-      geom_col(mapping = aes(x = reorder(Class, c(3, 1, 2)), y = avg_hands)) +
-      labs(x = "Grade", y = "Average Hands Raised")
+    if (input$by_gender) {
+      fill <- "gender"
+      color <- c("#F8766D", "#00BFC4")
+      legend <- guide_legend(title = "Gender")
+    } else {
+      fill <- "Class"
+      color <- c("L" = "turquoise", "M" = "darkblue", "H" = "purple")
+      legend = FALSE
+    }
+    
+    if (input$participation_select == "avg_hands") {
+      y_lab <- "Avg. Number of Hands Raised"
+    } else if (input$participation_select == "avg_resources") {
+      y_lab <- "Avg. Number of Times Visiting Resources"
+    } else if (input$participation_select == "avg_announcements") {
+      y_lab <- "Avg. Number of Announcements Viewed"
+    } else {
+      y_lab <- "Avg. Number of Times Participating in Online Discussions"
+    }
+    
+    ggplot(participation()) +
+      geom_col(mapping = aes(x = Class, y = get(input$participation_select), fill = get(fill)), position = position_dodge()) +
+      labs(x = "Grade", y = y_lab, title = paste(y_lab, "vs. Grade")) +
+      ylim(0, 100) +
+      scale_x_discrete(limits = c("L", "M", "H"), labels = c("Low (0-69)", "Middle (70-89)", "High (90-100)")) +
+      scale_fill_manual("legend", values = color) +
+      guides(fill = legend)
   })
   
   output$plot2 <- renderPlot({
@@ -73,14 +103,16 @@ shinyServer(function(input, output) {
       filter(StageID == input$stage) %>% 
       group_by(Class) %>% 
       count(ParentAnsweringSurvey) %>% 
-      mutate(percentage = n / sum(n) * 100)
-    data$Class <- factor(data$Class, levels = c("L", "M", "H"))
+      mutate(percentage = n / sum(n) * 100) %>% 
+      mutate(ypos = cumsum(n) - 0.5*n)
+    data$Class <- factor(data$Class, levels = c("L", "M", "H"), label = c("Low (0-69)", "Middle (70-89)", "High (90-100)"))
     
     ggplot(data, aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)) + 
       geom_bar(stat = "identity") +
-      labs(title = "Parental Involvement by Students' Grades") +
+      geom_text(aes(label=paste0(sprintf("%1.1f", percentage), "%"), vjust=0.5)) +
+      labs(title = "Parental Survey Response Rate by Students' Grades") +
       xlab ("Grade Level") +
-      ylab("Percentage (%)")
+      ylab("Percentage of Parents Responding Survey (%)")
   })
   
   output$table <- DT::renderDataTable(DT::datatable({

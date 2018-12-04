@@ -10,29 +10,63 @@ library(DT)
 
 # Define UI for application
 shinyUI(
-  navbarPage("Contents",
+  navbarPage("Learning Management System Data",
              tabPanel("Overview",
                       mainPanel(
+                        tags$h1("Learning Management System Data"),
+                        tags$br(),
+                        tags$h4("Project Overview"),
+                        tags$p("In order to teach effectively, it is important that educators understand the 
+                               factors that influence student performance. This project seeks to provide that 
+                               information by visualizing data from a learning management system. "),
+                        tags$br(),
+                        tags$h4("Audience"),
+                        tags$p("Our target audience is educators who want to learn what factors affect student 
+                               performance, particularly in relation to learning management systems."),
+                        tags$br(),
+                        tags$h4("Data"),
+                        tags$p("The dataset we will be using is “Students’ Academic Performance Dataset,” 
+                               which was collected by Elaf Abu Amrieh, Thair Hamtini, and Ibrahim Aljarah 
+                               from the University of Jordan. We accessed it on Kaggle (https://www.kaggle.com/aljarah/xAPI-Edu-Data/home). 
+                               It is an educational dataset collected from the learning management system Kalboard 360, 
+                               which allows students to access educational resources from any device connected 
+                               to the internet and monitors their learning progress and behaviors. The dataset 
+                               consists of a sample of 480 students and their associated attributes, including gender, 
+                               grade level, participation in discussion groups, absences, and more. The students are also 
+                               classified into numeric intervals based on their grades.")
+                        
+                        
+                        
                       )
              ),
-             tabPanel("Participation vs. Grades",
-                      # default so we could run the app
-                      sidebarLayout(
-                        sidebarPanel(
-                          radioButtons("participation_select", "Type of Participation",
-                                       c(
-                                         "Raised hand" = "raisedhands",
-                                         "Visiting Resources" = "VisITedResources",
-                                         "Viewing Announcements" = "AnnouncementsView",
-                                         "Discussion Groups" = "Discussion"
-                                       )
-                          )
-                        ),
-                        mainPanel(
-                          plotOutput("plot1"),
-                          textOutput("pwd")
-                        )
-                      )
+             tabPanel(
+               "Participation vs. Grades",
+               sidebarLayout(
+                 sidebarPanel(
+                   radioButtons(
+                     "participation_select",
+                     "Type of Participation",
+                     c(
+                       "Raised hand" = "avg_hands",
+                       "Visiting Resources" = "avg_resources",
+                       "Viewing Announcements" = "avg_announcements",
+                       "Discussion Groups" = "avg_discuss"
+                     )
+                   ),
+                   radioButtons(
+                     "by_gender",
+                     "View by Gender?",
+                     c(
+                       "Yes" = TRUE,
+                       "No" = FALSE
+                     )
+                   )
+                 ),
+                 mainPanel(
+                   plotOutput("plot1"),
+                   textOutput("pwd")
+                 )
+               )
              ),
              tabPanel("Nationality vs Grades",
                       sidebarLayout(
