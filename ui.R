@@ -33,10 +33,26 @@ shinyUI(
                                to the internet and monitors their learning progress and behaviors. The dataset 
                                consists of a sample of 480 students and their associated attributes, including gender, 
                                grade level, participation in discussion groups, absences, and more. The students are also 
-                               classified into numeric intervals based on their grades.")
-                        
-                        
-                        
+                               classified into numeric intervals based on their grades."),
+                        tags$br(),
+                        tags$h4("Questions"),
+                        tags$ol(
+                          tags$li("Which grade category has the highest average participation? What are the differences in 
+                                  the average participation scores? How does this vary between genders?"), 
+                          tags$li("Which country’s students have the highest and lowest mean of academic achievements?"), 
+                          tags$li("Which grade category has the highest parental survey response rate? How does the response 
+                                  rate differ by school stages?")
+                        ),
+                        tags$br(),
+                        tags$h4("Project Creators"),
+                        tags$ol(
+                          tags$li("Helena Stafford"), 
+                          tags$li("Scarlett Hwang"), 
+                          tags$li("Jessica Chen"),
+                          tags$li("Lucy Lee")
+                        ),
+                        tags$br(),
+                        tags$br()
                       )
              ),
              tabPanel(
