@@ -6,8 +6,8 @@
 In order to teach effectively, it is important that educators understand the 
 factors that influence student performance. This project seeks to provide that 
 information by visualizing data from a learning management system. 
-Click [Here]() to access the web application.
-
+Click [Here](https://sebinlee.shinyapps.io/INFO201_BB5/) to access the web application.
+Click [Here](https://github.com/jessicachen29/info201_bb5.git) to access the GitHub.
 
 ## Audience
 
