@@ -10,6 +10,7 @@ library(DT)
 
 # Define UI for application
 shinyUI(
+  # Make tabs/nav bars
   navbarPage("Learning Management System Data",
              tabPanel("Overview",
                       mainPanel(
@@ -87,12 +88,34 @@ shinyUI(
              tabPanel("Nationality vs Grades",
                       sidebarLayout(
                         sidebarPanel(
+                          # Make buttons with three choices of grade sectors
                           radioButtons("grades", "Grades",
-                                       c("High", "Mid", "Low")
+                                       c("High-Level (90-100)", "Middle-Level (70-89)", "Low-Level (0-69)")
                           )
                         ),
                         mainPanel(
-                          plotOutput("plot2")
+                          # Provide tab overview and summary 
+                          tags$h3("Nationality and Academic Achievement"),
+                          tags$p("The students are classified into three numerical intervals based on their total grade or mark:
+                            Low-Level (interval includes values from 0 to 69), Middle-Level (70 to 89),
+                            and High-Level (90-100)."),
+                          tags$br(),
+                          tags$p("We can explore the nationality distribution of the different sectors of the grades adjusting 
+                                 the inputs of the interactive chart."),
+                          tags$br(),
+                          tags$p("We have concluded that the majority of students who got the highest grades are from Jordan (more than 40%), 
+                                 and is following by students of Kuwait. For middle level grades, also, students of Jordan and Kuwait dominated. 
+                                 The pie chart of low level grades, it was also dominated by Kuwait’s students. We can assume the reason why 
+                                 students of Kuwait and Jordan are majority of all three sectors is they started off with the largest number of 
+                                 the students in first place."),
+                          tags$br(),
+                          tags$p("Though, we can see the significant decrease of the number of students of Saudi Arabia and Iraq as the 
+                                 grade goes down. There is zero Palestine students in low level grade sector, but only in high and middle."),
+                          tags$br(),
+                          
+                          # Draw plot
+                          plotOutput("plot2"),
+                          tags$br()
                         )
                       )
              ),
@@ -102,15 +125,28 @@ shinyUI(
                           selectInput(
                             inputId = "stage",
                             label = "School stage: ",
-                            c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool"
-                              ,"High School" = "HighSchool")
+                            c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool",
+                              "High School" = "HighSchool")
                           )
                         ),
                         mainPanel(
-                          plotOutput("plot3")
-                        )
-                      )
-             ),
+                          h2("Parental Involvment and Academic Achievement"),
+                          p("The bar graph below displays percentages of parents, of students from 
+                            three different grade categories, that have responded to school surveys.
+                            The drop down menu on the side can be used to show data by three school 
+                            stages: elementary school, middle school, and high school."),
+                          p("From the chart of each school stage, we can see that parents’ response rate on
+                            surveys tend to be higher for students who have higher grades. As the chart displays,
+                            students who’re placed in High grade category have the highest parental survey response rate,
+                            followed by students being placed in Middle grade category and Low grade category."),
+                          p("Parental survey response rate, as a form of parental involvement in students’ academic 
+                            performance, seems to have an association with students’ academic achievement. That is, students
+                            who have higher academic achievement tend to have parents that are attentive to their school performances."),
+                          plotOutput("plot3"),
+                          textOutput("numOfResponse")
+                          )
+                          )
+                      ),
              tabPanel("Data Table",
                       fluidRow(
                         column(3,
@@ -196,4 +232,4 @@ shinyUI(
                         DT::dataTableOutput("table")
                       )
              ))
-  )
+             )

@@ -8,8 +8,8 @@ library(dplyr)
 library(plotly)
 library(DT)
 
+# Process and store data
 data <- data.table::fread("data/xAPI-Edu-Data.csv")
-
 
 shinyServer(function(input, output) {
   participation <- reactive({
@@ -58,6 +58,7 @@ shinyServer(function(input, output) {
       guides(fill = legend)
   })
   
+  # Render pie charts of each grade sectors
   output$plot2 <- renderPlot({
     grades <- select(data, Class, NationalITy)
     
@@ -65,7 +66,7 @@ shinyServer(function(input, output) {
     mid <- filter(grades, Class == 'M')
     low <- filter(grades, Class == 'L')
     
-    if (input$grades == "High") {
+    if (input$grades == "High-Level (90-100)") {
       bp <- ggplot(high, aes(x="", y = nrow(high), fill = NationalITy)) +
         geom_bar(width = 1, stat = "identity")
       pie <- bp + coord_polar("y", start=0)
@@ -75,7 +76,7 @@ shinyServer(function(input, output) {
         labs(fill = "Nationality")
       return(pie)
       
-    } else if (input$grades == "Mid") {
+    } else if (input$grades == "Middle-Level (70-89)") {
       bp <- ggplot(mid, aes(x="", y = nrow(mid), fill = NationalITy))+
         geom_bar(width = 1, stat = "identity")
       pie <- bp + coord_polar("y", start=0)
