@@ -1,6 +1,7 @@
 # INFORMATICS 201 TEAM BB5
 # HELENA, SCARLETT, JESSICA, LUCY
-# THIS PROGRAM REPRESENTS...
+# This app visualizes and explains student data
+# from a learning management system.
 
 library(shiny)
 library(ggplot2)
@@ -11,225 +12,292 @@ library(DT)
 # Define UI for application
 shinyUI(
   # Make tabs/nav bars
-  navbarPage("Learning Management System Data",
-             tabPanel("Overview",
-                      mainPanel(
-                        tags$h1("Learning Management System Data"),
-                        tags$br(),
-                        tags$h4("Project Overview"),
-                        tags$p("In order to teach effectively, it is important that educators understand the 
-                               factors that influence student performance. This project seeks to provide that 
-                               information by visualizing data from a learning management system. "),
-                        tags$br(),
-                        tags$h4("Audience"),
-                        tags$p("Our target audience is educators who want to learn what factors affect student 
-                               performance, particularly in relation to learning management systems."),
-                        tags$br(),
-                        tags$h4("Data"),
-                        tags$p("The dataset we will be using is “Students’ Academic Performance Dataset,” 
-                               which was collected by Elaf Abu Amrieh, Thair Hamtini, and Ibrahim Aljarah 
-                               from the University of Jordan. We accessed it on Kaggle (https://www.kaggle.com/aljarah/xAPI-Edu-Data/home). 
-                               It is an educational dataset collected from the learning management system Kalboard 360, 
-                               which allows students to access educational resources from any device connected 
-                               to the internet and monitors their learning progress and behaviors. The dataset 
-                               consists of a sample of 480 students and their associated attributes, including gender, 
-                               grade level, participation in discussion groups, absences, and more. The students are also 
-                               classified into numeric intervals based on their grades."),
-                        tags$br(),
-                        tags$h4("Questions"),
-                        tags$ol(
-                          tags$li("Which grade category has the highest average participation? What are the differences in 
-                                  the average participation scores? How does this vary between genders?"), 
-                          tags$li("Which country’s students have the highest and lowest mean of academic achievements?"), 
-                          tags$li("Which grade category has the highest parental survey response rate? How does the response 
-                                  rate differ by school stages?")
-                          ),
-                        tags$br(),
-                        tags$h4("Project Creators"),
-                        tags$ol(
-                          tags$li("Helena Stafford"), 
-                          tags$li("Scarlett Hwang"), 
-                          tags$li("Jessica Chen"),
-                          tags$li("Lucy Lee")
-                        ),
-                        tags$br(),
-                        tags$br()
-                          )
-                        ),
-             tabPanel(
-               "Participation vs. Grades",
-               sidebarLayout(
-                 sidebarPanel(
-                   radioButtons(
-                     "participation_select",
-                     "Type of Participation",
-                     c(
-                       "Raised hand" = "avg_hands",
-                       "Visiting Resources" = "avg_resources",
-                       "Viewing Announcements" = "avg_announcements",
-                       "Discussion Groups" = "avg_discuss"
-                     )
-                   ),
-                   radioButtons(
-                     "by_gender",
-                     "View by Gender?",
-                     c(
-                       "Yes" = TRUE,
-                       "No" = FALSE
-                     )
-                   )
-                 ),
-                 mainPanel(
-                   plotOutput("plot1"),
-                   textOutput("pwd")
-                 )
-               )
-             ),
-             tabPanel("Nationality vs Grades",
-                      sidebarLayout(
-                        sidebarPanel(
-                          # Make buttons with three choices of grade sectors
-                          radioButtons("grades", "Grades",
-                                       c("High-Level (90-100)", "Middle-Level (70-89)", "Low-Level (0-69)")
-                          )
-                        ),
-                        mainPanel(
-                          # Provide tab overview and summary 
-                          tags$h3("Nationality and Academic Achievement"),
-                          tags$p("The students are classified into three numerical intervals based on their total grade or mark:
-                                 Low-Level (interval includes values from 0 to 69), Middle-Level (70 to 89),
-                                 and High-Level (90-100)."),
-                          tags$br(),
-                          tags$p("We can explore the nationality distribution of the different sectors of the grades adjusting 
-                                 the inputs of the interactive chart."),
-                          tags$br(),
-                          tags$p("We have concluded that the majority of students who got the highest grades are from Jordan (more than 40%), 
-                                 and is following by students of Kuwait. For middle level grades, also, students of Jordan and Kuwait dominated. 
-                                 The pie chart of low level grades, it was also dominated by Kuwait’s students. We can assume the reason why 
-                                 students of Kuwait and Jordan are majority of all three sectors is they started off with the largest number of 
-                                 the students in first place."),
-                          tags$br(),
-                          tags$p("Though, we can see the significant decrease of the number of students of Saudi Arabia and Iraq as the 
-                                 grade goes down. There is zero Palestine students in low level grade sector, but only in high and middle."),
-                          tags$br(),
-                          
-                          # Draw plot
-                          plotOutput("plot2"),
-                          tags$br()
-                          )
-                          )
-                        ),
-             tabPanel("Parental Involvement vs. Grades",
-                      sidebarLayout(
-                        sidebarPanel(
-                          selectInput(
-                            inputId = "stage",
-                            label = "School stage: ",
-                            c("Elementary School" = "lowerlevel", "Middle School" = "MiddleSchool",
-                              "High School" = "HighSchool")
-                          )
-                        ),
-                        mainPanel(
-                          h2("Parental Involvment and Academic Achievement"),
-                          p("The bar graph below displays percentages of parents, of students from 
-                            three different grade categories, that have responded to school surveys.
-                            The drop down menu on the side can be used to show data by three school 
-                            stages: elementary school, middle school, and high school."),
-                          p("From the chart of each school stage, we can see that parents’ response rate on
-                            surveys tend to be higher for students who have higher grades. As the chart displays,
-                            students who’re placed in High grade category have the highest parental survey response rate,
-                            followed by students being placed in Middle grade category and Low grade category."),
-                          p("Parental survey response rate, as a form of parental involvement in students’ academic 
-                            performance, seems to have an association with students’ academic achievement. That is, students
-                            who have higher academic achievement tend to have parents that are attentive to their school performances."),
-                          plotOutput("plot3"),
-                          textOutput("numOfResponse")
-                          )
-                          )
-                      ),
-             tabPanel("Data Table",
-                      fluidRow(
-                        column(3,
-                               selectInput("gender",
-                                           "Gender:",
-                                           c("All",
-                                             unique(as.character(data$gender))))
-                        ),
-                        column(3,
-                               selectInput("NationalITy",
-                                           "Nationality:",
-                                           c("All",
-                                             unique(as.character(data$NationalITy))))
-                        ),
-                        column(3,
-                               selectInput("PlaceofBirth",
-                                           "Place of Birth:",
-                                           c("All",
-                                             unique(as.character(data$PlaceofBirth))))
-                        ),
-                        column(3,
-                               selectInput("StageID",
-                                           "Educational Stages:",
-                                           c("All",
-                                             unique(as.character(data$StageID))))
-                        ),
-                        column(3,
-                               selectInput("GradeID",
-                                           "Grade Levels:",
-                                           c("All",
-                                             unique(as.character(data$GradeID))))
-                        ),
-                        column(3,
-                               selectInput("SectionID",
-                                           "Classroom Student Belongs:",
-                                           c("All",
-                                             unique(as.character(data$SectionID))))
-                        ),
-                        column(3,
-                               selectInput("Topic",
-                                           "Couorse Topic:",
-                                           c("All",
-                                             unique(as.character(data$Topic))))
-                        ),
-                        column(3,
-                               selectInput("Semester",
-                                           "Semester:",
-                                           c("All",
-                                             unique(as.character(data$Semester))))
-                        ),
-                        column(3,
-                               selectInput("Relation",
-                                           "Relation:",
-                                           c("All",
-                                             unique(as.character(data$Relation))))
-                        ),
-                        column(3,
-                               selectInput("ParentAnsweringSurvey",
-                                           "Parent Answering Survey:",
-                                           c("All",
-                                             unique(as.character(data$ParentAnsweringSurvey))))
-                        ),
-                        column(3,
-                               selectInput("ParentschoolSatisfaction",
-                                           "Parent School Satisfaction:",
-                                           c("All",
-                                             unique(as.character(data$ParentschoolSatisfaction))))
-                        ),
-                        column(3,
-                               selectInput("StudentAbsenceDays",
-                                           "Student Absence Days:",
-                                           c("All",
-                                             unique(as.character(data$StudentAbsenceDays))))
-                        ),
-                        column(3,
-                               selectInput("Class",
-                                           "Class:",
-                                           c("All",
-                                             unique(as.character(data$Class))))
-                        )
-                      ),
-                      mainPanel(
-                        DT::dataTableOutput("table")
-                      )
-             ))
-             )
+  navbarPage(
+    "Learning Management System Data",
+    tabPanel(
+      "Overview",
+      mainPanel(
+        h3("Project Overview"),
+        p("In order to teach effectively, it is important that educators
+          understand the factors that influence student performance. This
+          project seeks to provide that information by visualizing data from
+          a learning management system."),
+        h4("Audience"),
+        p("Our target audience is educators who want to learn what factors
+          affect student performance, particularly in relation to learning
+          management systems."),
+        h4("Data"),
+        p("The dataset we will be using is \"Students' Academic Performance
+          Dataset,\" which was collected by Elaf Abu Amrieh, Thair Hamtini,
+          and Ibrahim Aljarah from the University of Jordan. We accessed it
+          on Kaggle (https://www.kaggle.com/aljarah/xAPI-Edu-Data/home). It
+          is an educational dataset collected from the learning management
+          system Kalboard 360, which allows students to access educational
+          resources from any device connected to the internet and monitors
+          their learning progress and behaviors. The dataset consists of a
+          sample of 480 students and their associated attributes, including
+          gender, grade level, participation in discussion groups, absences,
+          and more. The students are also classified into numeric intervals
+          based on their grades."),
+        h4("Questions to Consider"),
+        tags$ol(
+          tags$li("Which grade category has the highest average participation?
+                  How does this vary between genders?"), 
+          tags$li("Which country's students have the highest and lowest mean of
+                  academic achievements?"), 
+          tags$li("Which grade category has the highest parental survey
+                  response rate? How does the response rate differ by
+                  school stages?")
+        ),
+        h4("Project Creators"),
+        tags$ol(
+          tags$li("Helena Stafford"), 
+          tags$li("Scarlett Hwang"), 
+          tags$li("Jessica Chen"),
+          tags$li("Lucy Lee")
+        ),
+        tags$br(),
+        tags$br()
+      )
+    ),
+    tabPanel(
+      "Participation vs. Grades",
+      sidebarLayout(
+        sidebarPanel(
+          # Make participation type selection buttons
+          radioButtons(
+            "participation_select",
+            "Type of Participation",
+            c(
+              "Raised hand" = "raisedhands",
+              "Visiting Resources" = "VisITedResources",
+              "Viewing Announcements" = "AnnouncementsView",
+              "Discussion Groups" = "Discussion"
+            )
+          ),
+          # Make gender split selection buttons
+          radioButtons(
+            "by_gender",
+            "View by Gender?",
+            c("Yes" = TRUE, "No" = FALSE),
+            selected = FALSE
+          )
+        ),
+        mainPanel(
+          h3("Participation and Academic Achievement"),
+          p("The bar graph below shows the average number of times students
+            from each grade category (low, middle, or high) engage in each
+            type of participation recorded in the dataset. Use the buttons on
+            the upper left to choose the type of participation displayed. To
+            see the information split by gender, select \"Yes\" from the lower
+            set of buttons."),
+          p("For every type of participation shown, the average number of
+            times a student participates increases as student grade
+            increases, so students with high grades participated the most
+            times on average. This trend mostly holds when the data are
+            split by gender, except that females with low grades have an
+            unexpectedly high average number of times participating in
+            discussions."),
+          p("Because we do not know how students' overall grades were
+            calculated, we also do not know how they relate to participation.
+            If students' grades were based directly on these numbers, at
+            least part of the correlation would be easily explained. If these
+            types of participation were optional, it could suggest that
+            actively participating causes students to get better grades, or
+            that there is an additional variable causing both participation
+            and grades to increase at the same time. Unfortunately this
+            relationship cannot be determined with the given data, but
+            more research should be done. In the meantime, it couldn't hurt
+            to encourage students to actively participate using their
+            learning management systems."),
+          br(),
+          plotOutput("plot1"),
+          textOutput("mean_participation"),
+          br()
+        )
+      )
+    ),
+    tabPanel(
+      "Nationality vs. Grades",
+      sidebarLayout(
+        sidebarPanel(
+          # Make buttons with three choices of grade sectors
+          radioButtons(
+            "grades",
+            "Grades",
+            c(
+              "High-Level (90-100)",
+              "Middle-Level (70-89)",
+              "Low-Level (0-69)"
+            )
+          )
+        ),
+        mainPanel(
+          # Provide tab overview and summary 
+          h3("Nationality and Academic Achievement"),
+          p("The students are classified into three numerical intervals based
+            on their total grade or mark: Low-Level (interval includes values
+            from 0 to 69), Middle-Level (70 to 89), and High-Level (90-100)."),
+          p("Explore the nationality distribution of the different
+            grade categories by adjusting the displayed category with the
+            buttons on the left."),
+          p("We have concluded that the majority of students who got high
+            grades are from Jordan (more than 40%), followed by the students
+            in Kuwait. For middle level grades, students of Jordan
+            and Kuwait dominated as well. The pie chart of low level grades is
+            also dominated by Kuwait's students. Based on the data, it is
+            likely that these observations are due to the fact that there is a
+            high number of students from Jordan and Kuwait in the dataset as
+            a whole."),
+          p("One notable observation is that there is a  significant decrease
+            in the number of students from Saudi Arabia and Iraq as grades
+            decrease. There are no Palestine students in the low level grade
+            sector, only in high and middle. Due to the limitations of this
+            particular dataset, it is impossible to determine why this might
+            be the case without additional information. However, it does
+            suggest that there may be a difference in grades between countries,
+            possibly because of different grading systems, different levels of
+            achievement, or another factor. Therefore it may be worthwhile to
+            do more research and consider possible differences in students and
+            grading when teaching in another country."),
+          br(),
+          # Draw plot
+          plotOutput("plot2"),
+          br()
+        )
+      )
+    ),
+    tabPanel(
+      "Parental Involvement vs. Grades",
+      sidebarLayout(
+        sidebarPanel(
+          # Make school stage selection dropdown
+          selectInput(
+            inputId = "stage",
+            label = "School stage: ",
+            c(
+              "Elementary School" = "lowerlevel",
+              "Middle School" = "MiddleSchool",
+              "High School" = "HighSchool"
+            )
+          )
+        ),
+        mainPanel(
+          h3("Parental Involvement and Academic Achievement"),
+          p("The bar graph below displays the percentage of parents that
+            responded to school surveys for students from each of the three
+            different grade categories. The drop down menu on the side can
+            be used to select the type of the student represented in the graph:
+            elementary school, middle school, or high school."),
+          p("From the chart of each school stage, we can see that parents'
+            response rates on surveys tend to be higher for students who have
+            higher grades. As the chart displays, students who have high grades
+            have the highest parental survey response rate, followed by
+            students with grades in the middle and low ranges."),
+          p("Parental survey response rate, as a form of parental involvement
+            in students' academic performance, seems to be associated
+            with students' academic achievement. That is, students who have
+            higher academic achievement tend to have parents that are attentive
+            to their school performances."),
+          p("It is important to note that this does not imply causation,
+            so it is not possible to tell from these data whether increasing
+            parental involvement would increase student achievement. However,
+            the data do indicate that students whose parents do not answer
+            school surveys are statistically less likely to succeed. Therefore,
+            regardless of the reason, it may be beneficial to provide students
+            with additional attention and resources if they appear to be at
+            risk of underachievement based on a lack of indicators of parental
+            involvement, such as response to school surveys."),
+          br(),
+          plotOutput("plot3"),
+          textOutput("numOfResponse"),
+          br()
+        )
+      )
+    ),
+    tabPanel("Data",
+      sidebarLayout(
+        # Make dropdowns that filter data table
+        sidebarPanel(
+          selectInput(
+            "gender",
+            "Gender:",
+            c("All", unique(as.character(data$gender)))
+          ),
+          selectInput(
+            "NationalITy",
+            "Nationality:",
+            c("All", unique(as.character(data$NationalITy)))
+          ),
+          selectInput(
+            "PlaceofBirth",
+            "Place of Birth:",
+            c("All", unique(as.character(data$PlaceofBirth)))
+          ),
+          selectInput(
+            "StageID",
+            "Educational Stages:",
+            c("All", unique(as.character(data$StageID)))
+          ),
+          selectInput(
+            "GradeID",
+            "Grade Levels:",
+            c("All", unique(as.character(data$GradeID)))
+          ),
+          selectInput(
+            "SectionID",
+            "Classroom Student Belongs:",
+            c("All", unique(as.character(data$SectionID)))
+          ),
+          selectInput(
+            "Topic",
+            "Course Topic:",
+            c("All", unique(as.character(data$Topic)))
+          ),
+          selectInput(
+            "Semester",
+            "Semester:",
+            c("All", unique(as.character(data$Semester)))
+          ),
+          selectInput(
+            "Relation",
+            "Relation:",
+            c("All", unique(as.character(data$Relation)))
+          ),
+          selectInput(
+            "ParentAnsweringSurvey",
+            "Parent Answering Survey:",
+            c("All", unique(as.character(data$ParentAnsweringSurvey)))
+          ),
+          selectInput(
+            "ParentschoolSatisfaction",
+            "Parent School Satisfaction:",
+            c("All", unique(as.character(data$ParentschoolSatisfaction)))
+          ),
+          selectInput(
+            "StudentAbsenceDays",
+            "Student Absence Days:",
+            c("All", unique(as.character(data$StudentAbsenceDays)))
+          ),
+          selectInput(
+            "Class",
+            "Class:",
+            c("All", unique(as.character(data$Class)))
+          ),
+          width = 2
+      ),
+      mainPanel(
+        h3("Data"),
+        p("Here you can view the data this project is based on.
+          Use the dropdown menus to the left to filter the data so only
+          students who match the chosen conditions are displayed. The
+          search bar can be used to search for specific values; for example,
+          searching \"USA\" would cause the table to display only those
+          students who were born in or live in the United States."),
+        br(),
+        DT::dataTableOutput("table")
+        )
+      )
+    )
+  )
+)
