@@ -133,6 +133,7 @@ shinyServer(function(input, output) {
       count(ParentAnsweringSurvey) %>% 
       mutate(percentage = n / sum(n) * 100) %>% 
       mutate(ypos = cumsum(n) - 0.5 * n)
+   
     data$Class <- factor(
                     data$Class,
                     levels = c("L", "M", "H"),
