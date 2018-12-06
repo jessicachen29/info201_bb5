@@ -43,8 +43,8 @@ shinyUI(
         tags$ol(
           tags$li("Which grade category has the highest average participation?
                   How does this vary between genders?"), 
-          tags$li("Which country's students have the highest and lowest mean of
-                  academic achievements?"), 
+          tags$li("Which country's students get the greatest proportion
+                  of high grades? Low grades?"), 
           tags$li("Which grade category has the highest parental survey
                   response rate? How does the response rate differ by
                   school stages?")
@@ -138,22 +138,25 @@ shinyUI(
           p("The students are classified into three numerical intervals based
             on their total grade or mark: Low-Level (interval includes values
             from 0 to 69), Middle-Level (70 to 89), and High-Level (90-100)."),
-          p("Explore the nationality distribution of the different
-            grade categories by adjusting the displayed category with the
-            buttons on the left."),
-          p("We have concluded that the majority of students who got high
-            grades are from Venezuela (100%, because there was only one student from 
-            the country in the data), followed by the students
-            in Iraq. For middle level grades, students of Iran had the highest percentage
-            and closely followed by Palestine. Lastly, for the lowest grade, the students
-            of Lybia had the highest percent."),
-          p("Though there is a limitation that the total number of each countries
-            varies in wide ranges, it does suggest that there may be a difference
-            in grades between countries,
-            possibly because of different grading systems, different levels of
-            achievement, or another factor. Therefore it may be worthwhile to
-            do more research and consider possible differences in students and
-            grading when teaching in another country."),
+          p("Explore the percentages of students belonging to each grade category
+            for the countries in the data by adjusting the displayed category
+            with the buttons on the left."),
+          p("The country with the greatest percentage of students with high
+            grades is Venezuela (100%), but this is because there is only
+            one student in the entire dataset from that country. The country
+            with the next greatest percent of high grades is Iraq. For middle
+            level grades, students of Iran had the highest percentage and
+            closely followed by Palestine. Lastly, for the lowest grade,
+            the students of Lybia had the highest percent."),
+          p("Unfortunately there are limitations due to the size of the
+            dataset. For example, it is impossible to determine anything
+            about grades in Venezuela with only a single observation. In
+            addition, it is impossible to determine the reasons for the
+            differences in grades based on these data alone. For these reasons,
+            a large study examining academic achievement across countries would
+            be beneficial. However, the data here do show clear differences
+            between the countries, so it may be wise to consider these when
+            teaching in different countries."),
           br(),
           # Draw plot
           plotOutput("plot2"),
