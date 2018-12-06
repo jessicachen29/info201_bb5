@@ -142,20 +142,14 @@ shinyUI(
             grade categories by adjusting the displayed category with the
             buttons on the left."),
           p("We have concluded that the majority of students who got high
-            grades are from Jordan (more than 40%), followed by the students
-            in Kuwait. For middle level grades, students of Jordan
-            and Kuwait dominated as well. The pie chart of low level grades is
-            also dominated by Kuwait's students. Based on the data, it is
-            likely that these observations are due to the fact that there is a
-            high number of students from Jordan and Kuwait in the dataset as
-            a whole."),
-          p("One notable observation is that there is a  significant decrease
-            in the number of students from Saudi Arabia and Iraq as grades
-            decrease. There are no Palestine students in the low level grade
-            sector, only in high and middle. Due to the limitations of this
-            particular dataset, it is impossible to determine why this might
-            be the case without additional information. However, it does
-            suggest that there may be a difference in grades between countries,
+            grades are from Venezuela (100%, because there was only one student from 
+            the country in the data), followed by the students
+            in Iraq. For middle level grades, students of Iran had the highest percentage
+            and closely followed by Palestine. Lastly, for the lowest grade, the students
+            of Lybia had the highest percent."),
+          p("Though there is a limitation that the total number of each countries
+            varies in wide ranges, it does suggest that there may be a difference
+            in grades between countries,
             possibly because of different grading systems, different levels of
             achievement, or another factor. Therefore it may be worthwhile to
             do more research and consider possible differences in students and

@@ -90,20 +90,46 @@ shinyServer(function(input, output) {
     mid <- filter(grades, Class == "M")
     low <- filter(grades, Class == "L")
     
+    country_counts <- 
+      grades %>% 
+      group_by(NationalITy) %>% 
+      summarize(n = n())
+    country_counts_grades <- 
+      grades %>% 
+      group_by(NationalITy, Class) %>% 
+      summarize(n = n())
+    
+    country_counts_grades <-
+      country_counts_grades %>% 
+      left_join(country_counts, by = "NationalITy")
+    
     if (input$grades == "High-Level (90-100)") {
-      g <- ggplot(high, aes(NationalITy, fill = NationalITy))
-      g + geom_bar() +
-        labs(x = "Nationality", y = "Number of Students with High Grades")
+      g <- country_counts_grades %>% 
+        filter(Class == "H") %>% 
+        ggplot()
+      g + geom_col(aes(x = NationalITy, y = n.x / n.y * 100, fill = NationalITy)) +
+        labs(x = "Nationality", y = "Percent of Students with High Grades", 
+             title = "Nationality vs. Percent of Students with High Grades",
+             fill = "Nationality")
       
     } else if (input$grades == "Middle-Level (70-89)") {
-      g <- ggplot(mid, aes(NationalITy, fill = NationalITy))
-      g + geom_bar() +
-        labs(x = "Nationality", y = "Number of Students with Mid Grades")
+      g <- country_counts_grades %>% 
+        filter(Class == "M") %>% 
+        ggplot()
+      g + geom_col(aes(x = NationalITy, y = n.x / n.y * 100, fill = NationalITy)) +
+        labs(x = "Nationality", y = "Percent of Students with Mid Grades", 
+             title = "Nationality vs. Percent of Students with Mid Grades",
+             fill = "Nationality")
       
     } else {
-      g <- ggplot(low, aes(NationalITy, fill = NationalITy))
-      g + geom_bar() +
-        labs(x = "Nationality", y = "Number of Students with Low Grades")
+      g <- country_counts_grades %>% 
+        filter(Class == "L") %>% 
+        ggplot()
+      g + geom_col(aes(x = NationalITy, y = n.x / n.y * 100, fill = NationalITy)) +
+        labs(x = "Nationality", y = "Percent of Students with Low Grades",
+             title = "Nationality vs. Percent of Students with Low Grades",
+             fill = "Nationality")
+      
     }
   })
   
@@ -129,7 +155,8 @@ shinyServer(function(input, output) {
       geom_bar(stat = "identity") +
       geom_text(aes(label = paste0(sprintf("%1.1f", percentage), "%")),
                 position = position_stack(vjust = 0.5)) +
-      labs(title = "Parental Survey Response Rate by Students' Grades") +
+      labs(title = "Parental Survey Response Rate by Students' Grades",
+           fill = "Parent Responded to Survey") +
       xlab ("Grade Level") +
       ylab("Percentage of Parents Responding Survey (%)")
   })
