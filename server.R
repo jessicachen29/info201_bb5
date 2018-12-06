@@ -65,10 +65,10 @@ shinyServer(function(input, output) {
     ggplot(participation()) +
       geom_col(
         mapping = aes(
-                    x = Class,
-                    y = get(input$participation_select),
-                    fill = get(fill)
-                  ),
+          x = Class,
+          y = get(input$participation_select),
+          fill = get(fill)
+        ),
         position = position_dodge()
       ) +
       labs(x = "Grade", y = y_lab, title = paste(y_lab, "vs. Grade")) +
@@ -91,36 +91,19 @@ shinyServer(function(input, output) {
     low <- filter(grades, Class == "L")
     
     if (input$grades == "High-Level (90-100)") {
-      bp <- ggplot(high, aes(x = "", y = nrow(high), fill = NationalITy)) +
-        geom_bar(width = 1, stat = "identity")
-      pie <- bp + coord_polar("y", start = 0)
+      g <- ggplot(high, aes(NationalITy, fill = NationalITy))
+      g + geom_bar() +
+        labs(x = "Nationality", y = "Number of Students with High Grades")
       
-      pie <-
-        pie +
-        ggtitle("Students with High Grades from Different Countries") +
-        xlab("") + ylab("Number of Students") +
-        labs(fill = "Nationality")
-      return(pie)
     } else if (input$grades == "Middle-Level (70-89)") {
-      bp <- ggplot(mid, aes(x = "", y = nrow(mid), fill = NationalITy)) +
-        geom_bar(width = 1, stat = "identity")
-      pie <- bp + coord_polar("y", start = 0)
-      pie <-
-        pie +
-        ggtitle("Students with Mid Grades from Different Countries") +
-        xlab("") + ylab("Number of Students") +
-        labs(fill = "Nationality")
-      return(pie)
-    } else {
-      bp <- ggplot(low, aes(x = "", y = nrow(low), fill = NationalITy))+
-        geom_bar(width = 1, stat = "identity")
-      pie <- bp + coord_polar("y", start = 0)
+      g <- ggplot(mid, aes(NationalITy, fill = NationalITy))
+      g + geom_bar() +
+        labs(x = "Nationality", y = "Number of Students with Mid Grades")
       
-      pie <-
-        pie + ggtitle("Students with Low Grades from Different Countries") +
-        xlab("") + ylab("Number of Students") +
-        labs(fill = "Nationality")
-      return(pie)
+    } else {
+      g <- ggplot(low, aes(NationalITy, fill = NationalITy))
+      g + geom_bar() +
+        labs(x = "Nationality", y = "Number of Students with Low Grades")
     }
   })
   
@@ -133,12 +116,12 @@ shinyServer(function(input, output) {
       count(ParentAnsweringSurvey) %>% 
       mutate(percentage = n / sum(n) * 100) %>% 
       mutate(ypos = cumsum(n) - 0.5 * n)
-   
+    
     data$Class <- factor(
-                    data$Class,
-                    levels = c("L", "M", "H"),
-                    label = c("Low (0-69)", "Middle (70-89)", "High (90-100)")
-                  )
+      data$Class,
+      levels = c("L", "M", "H"),
+      label = c("Low (0-69)", "Middle (70-89)", "High (90-100)")
+    )
     ggplot(
       data,
       aes(x = Class, y = percentage, fill = ParentAnsweringSurvey)

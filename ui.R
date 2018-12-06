@@ -48,7 +48,7 @@ shinyUI(
           tags$li("Which grade category has the highest parental survey
                   response rate? How does the response rate differ by
                   school stages?")
-        ),
+          ),
         h4("Project Creators"),
         tags$ol(
           tags$li("Helena Stafford"), 
@@ -58,8 +58,8 @@ shinyUI(
         ),
         tags$br(),
         tags$br()
-      )
-    ),
+          )
+          ),
     tabPanel(
       "Participation vs. Grades",
       sidebarLayout(
@@ -114,9 +114,9 @@ shinyUI(
           plotOutput("plot1"),
           textOutput("mean_participation"),
           br()
-        )
-      )
-    ),
+          )
+          )
+        ),
     tabPanel(
       "Nationality vs. Grades",
       sidebarLayout(
@@ -164,9 +164,9 @@ shinyUI(
           # Draw plot
           plotOutput("plot2"),
           br()
-        )
-      )
-    ),
+          )
+          )
+          ),
     tabPanel(
       "Parental Involvement vs. Grades",
       sidebarLayout(
@@ -212,92 +212,92 @@ shinyUI(
           plotOutput("plot3"),
           textOutput("numOfResponse"),
           br()
-        )
-      )
-    ),
+          )
+          )
+          ),
     tabPanel("Data",
-      sidebarLayout(
-        # Make dropdowns that filter data table
-        sidebarPanel(
-          selectInput(
-            "gender",
-            "Gender:",
-            c("All", unique(as.character(data$gender)))
-          ),
-          selectInput(
-            "NationalITy",
-            "Nationality:",
-            c("All", unique(as.character(data$NationalITy)))
-          ),
-          selectInput(
-            "PlaceofBirth",
-            "Place of Birth:",
-            c("All", unique(as.character(data$PlaceofBirth)))
-          ),
-          selectInput(
-            "StageID",
-            "Educational Stages:",
-            c("All", unique(as.character(data$StageID)))
-          ),
-          selectInput(
-            "GradeID",
-            "Grade Levels:",
-            c("All", unique(as.character(data$GradeID)))
-          ),
-          selectInput(
-            "SectionID",
-            "Classroom Student Belongs:",
-            c("All", unique(as.character(data$SectionID)))
-          ),
-          selectInput(
-            "Topic",
-            "Course Topic:",
-            c("All", unique(as.character(data$Topic)))
-          ),
-          selectInput(
-            "Semester",
-            "Semester:",
-            c("All", unique(as.character(data$Semester)))
-          ),
-          selectInput(
-            "Relation",
-            "Relation:",
-            c("All", unique(as.character(data$Relation)))
-          ),
-          selectInput(
-            "ParentAnsweringSurvey",
-            "Parent Answering Survey:",
-            c("All", unique(as.character(data$ParentAnsweringSurvey)))
-          ),
-          selectInput(
-            "ParentschoolSatisfaction",
-            "Parent School Satisfaction:",
-            c("All", unique(as.character(data$ParentschoolSatisfaction)))
-          ),
-          selectInput(
-            "StudentAbsenceDays",
-            "Student Absence Days:",
-            c("All", unique(as.character(data$StudentAbsenceDays)))
-          ),
-          selectInput(
-            "Class",
-            "Class:",
-            c("All", unique(as.character(data$Class)))
-          ),
-          width = 2
-      ),
-      mainPanel(
-        h3("Data"),
-        p("Here you can view the data this project is based on.
+             sidebarLayout(
+               # Make dropdowns that filter data table
+               sidebarPanel(
+                 selectInput(
+                   "gender",
+                   "Gender:",
+                   c("All", unique(as.character(data$gender)))
+                 ),
+                 selectInput(
+                   "NationalITy",
+                   "Nationality:",
+                   c("All", unique(as.character(data$NationalITy)))
+                 ),
+                 selectInput(
+                   "PlaceofBirth",
+                   "Place of Birth:",
+                   c("All", unique(as.character(data$PlaceofBirth)))
+                 ),
+                 selectInput(
+                   "StageID",
+                   "Educational Stages:",
+                   c("All", unique(as.character(data$StageID)))
+                 ),
+                 selectInput(
+                   "GradeID",
+                   "Grade Levels:",
+                   c("All", unique(as.character(data$GradeID)))
+                 ),
+                 selectInput(
+                   "SectionID",
+                   "Classroom Student Belongs:",
+                   c("All", unique(as.character(data$SectionID)))
+                 ),
+                 selectInput(
+                   "Topic",
+                   "Course Topic:",
+                   c("All", unique(as.character(data$Topic)))
+                 ),
+                 selectInput(
+                   "Semester",
+                   "Semester:",
+                   c("All", unique(as.character(data$Semester)))
+                 ),
+                 selectInput(
+                   "Relation",
+                   "Relation:",
+                   c("All", unique(as.character(data$Relation)))
+                 ),
+                 selectInput(
+                   "ParentAnsweringSurvey",
+                   "Parent Answering Survey:",
+                   c("All", unique(as.character(data$ParentAnsweringSurvey)))
+                 ),
+                 selectInput(
+                   "ParentschoolSatisfaction",
+                   "Parent School Satisfaction:",
+                   c("All", unique(as.character(data$ParentschoolSatisfaction)))
+                 ),
+                 selectInput(
+                   "StudentAbsenceDays",
+                   "Student Absence Days:",
+                   c("All", unique(as.character(data$StudentAbsenceDays)))
+                 ),
+                 selectInput(
+                   "Class",
+                   "Class:",
+                   c("All", unique(as.character(data$Class)))
+                 ),
+                 width = 2
+               ),
+               mainPanel(
+                 h3("Data"),
+                 p("Here you can view the data this project is based on.
           Use the dropdown menus to the left to filter the data so only
           students who match the chosen conditions are displayed. The
           search bar can be used to search for specific values; for example,
           searching \"USA\" would cause the table to display only those
           students who were born in or live in the United States."),
-        br(),
-        DT::dataTableOutput("table")
-        )
-      )
+                 br(),
+                 DT::dataTableOutput("table")
+               )
+             )
+    )
     )
   )
-)
